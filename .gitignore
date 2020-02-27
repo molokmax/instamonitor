@@ -354,5 +354,5 @@ MigrationBackup/
 
 
 # Configs with auth data
-InstaMonitor/appsettings.Development.json
-InstaMonitor/appsettings.Production.json
+src/appsettings.Development.json
+src/appsettings.Production.json

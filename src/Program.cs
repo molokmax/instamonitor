@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace InstaMonitor
 {
@@ -12,7 +13,7 @@ namespace InstaMonitor
     {
         
 
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             try
             {
@@ -24,13 +25,13 @@ namespace InstaMonitor
                 if (monitorItems.Any())
                 {
                     InstragramEngine engine = ioc.ServiceProvider.GetService<InstragramEngine>();
-                    engine.Initialize().Wait();
+                    await engine.Initialize();
                     
                     foreach (MonitorItem item in monitorItems)
                     {
                         if (item.Followers)
                         {
-                            List<string> followers = engine.GetFollowers(item.UserName).GetAwaiter().GetResult();
+                            List<string> followers = await engine.GetFollowers(item.UserName);
 
                             Console.WriteLine($"{item.UserName}'s followers:");
                             foreach (string user in followers)

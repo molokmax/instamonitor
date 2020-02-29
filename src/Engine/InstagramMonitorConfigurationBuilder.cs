@@ -13,10 +13,8 @@ namespace InstaMonitor.Engine
 
         protected override void ConfigureServices(IServiceCollection services)
         {
-            //List<MonitorItem> monitorItems = new List<MonitorItem>();
-            //Configuration.GetSection("MonitorItems").Bind(monitorItems);
-
             services.AddTransient<InstragramEngine>();
+            services.AddSingleton<DataRepository>();
         }
     }
 }

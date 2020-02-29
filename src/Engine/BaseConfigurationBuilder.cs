@@ -28,6 +28,7 @@ namespace InstaMonitor.Engine
             {
                 envName = Environment.GetEnvironmentVariable(EnvironmentVariableName);
             }
+            Console.WriteLine($"EnviromentName = '{envName}'");
             Configuration = BuildConfiguration(envName);
             ServiceProvider = BuildServiceProvider(Configuration);
         }

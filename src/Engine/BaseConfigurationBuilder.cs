@@ -6,13 +6,29 @@ using System.IO;
 
 namespace InstaMonitor.Engine
 {
+    /// <summary>
+    /// Base builder of application configuration
+    /// </summary>
     public abstract class BaseConfigurationBuilder
     {
         public IConfiguration Configuration { get; private set; }
         public IServiceProvider ServiceProvider { get; private set; }
 
+        /// <summary>
+        /// Name of environment variable with environment name
+        /// </summary>
         protected readonly string EnvironmentVariableName = "INSTAMONITOR_ENVIRONMENT";
 
+        /// <summary>
+        /// ConfigurationBuilder's constructor
+        /// if envVariableName is empty then will be used default Environment Variable Name (INSTAMONITOR_ENVIRONMENT)
+        /// EnvironmentName source priority:
+        /// 1. Value from file envsettings.json
+        /// 2. Value of envName passed to the constructor
+        /// 3. Value of environment variable. Name of variable is INSTAMONITOR_ENVIRONMENT (by default) or envVariableName (if passed)
+        /// </summary>
+        /// <param name="envName"></param>
+        /// <param name="envVariableName"></param>
         public BaseConfigurationBuilder(string envName = null, string envVariableName = null)
         {
             if (!String.IsNullOrEmpty(envVariableName))
@@ -28,13 +44,22 @@ namespace InstaMonitor.Engine
             {
                 envName = Environment.GetEnvironmentVariable(EnvironmentVariableName);
             }
-            Console.WriteLine($"EnviromentName = '{envName}'");
+            Console.WriteLine($"EnviromentName = '{envName}'"); // TODO. write to log
             Configuration = BuildConfiguration(envName);
             ServiceProvider = BuildServiceProvider(Configuration);
         }
 
+        /// <summary>
+        /// Abstract method for configure dependency injection (IoC)
+        /// </summary>
+        /// <param name="services"></param>
         protected abstract void ConfigureServices(IServiceCollection services);
 
+        /// <summary>
+        /// Read configuration files and build application configuration
+        /// </summary>
+        /// <param name="envName"></param>
+        /// <returns></returns>
         protected virtual IConfiguration BuildConfiguration(string envName)
         {
             IConfigurationBuilder builder = new ConfigurationBuilder()
@@ -50,7 +75,10 @@ namespace InstaMonitor.Engine
         }
 
 
-
+        /// <summary>
+        /// Get value of environment name for select configuration file
+        /// </summary>
+        /// <returns></returns>
         private string GetEnvironmentName()
         {
             var currentDirectoryPath = Directory.GetCurrentDirectory();
@@ -67,7 +95,10 @@ namespace InstaMonitor.Engine
             return enviromentName;
         }
 
-
+        /// <summary>
+        /// Create container
+        /// </summary>
+        /// <returns></returns>
         protected virtual IServiceCollection CreateServices()
         {
             IServiceCollection services = new ServiceCollection();

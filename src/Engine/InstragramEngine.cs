@@ -11,6 +11,9 @@ using System.Threading.Tasks;
 
 namespace InstaMonitor.Engine
 {
+    /// <summary>
+    /// Engine of instagram api. Wrapper for client of instagram api
+    /// </summary>
     public class InstragramEngine
     {
         private IInstaApi api;
@@ -21,6 +24,11 @@ namespace InstaMonitor.Engine
             configuration = config;
         }
 
+        /// <summary>
+        /// Initialize api instagram
+        /// Get user and pass from config and make sing in
+        /// </summary>
+        /// <returns></returns>
         public async Task Initialize()
         {
             UserSessionData user = new UserSessionData();
@@ -32,6 +40,11 @@ namespace InstaMonitor.Engine
             await Login();
         }
 
+        /// <summary>
+        /// Build client of instagram api
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         private IInstaApi BuildApi(UserSessionData user)
         {
             IInstaApi result = InstaApiBuilder.CreateBuilder()
@@ -42,7 +55,10 @@ namespace InstaMonitor.Engine
             return result;
         }
 
-
+        /// <summary>
+        /// Make sign in
+        /// </summary>
+        /// <returns></returns>
         private async Task Login()
         {
             IResult<InstaLoginResult> request = await api.LoginAsync();
@@ -57,6 +73,11 @@ namespace InstaMonitor.Engine
             }
         }
         
+        /// <summary>
+        /// Get list of followers of passed user
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <returns></returns>
         public async Task<List<string>> GetFollowers(string userName)
         {
             var followersReq = await api.GetUserFollowersAsync(userName, PaginationParameters.Empty);

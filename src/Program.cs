@@ -18,6 +18,7 @@ namespace InstaMonitor
                 Console.WriteLine("Begin");
 
                 InstagramMonitorConfigurationBuilder ioc = new InstagramMonitorConfigurationBuilder();
+                // Parse configuration. Get list of objects for monitoring
                 List<MonitorItem> monitorItems = ioc.Configuration.GetSection("MonitorItems").Get<List<MonitorItem>>();
 
                 if (monitorItems != null && monitorItems.Any())
@@ -29,6 +30,7 @@ namespace InstaMonitor
 
                     foreach (MonitorItem item in monitorItems)
                     {
+                        // Get record of instagram account. Create new if record is not exist
                         Account account = repo.GetAccount(item.UserName);
                         if (account == null)
                         {
@@ -39,8 +41,10 @@ namespace InstaMonitor
                         }
                         account.LastUpdate = DateTime.Now;
                         repo.SaveAccount(account);
+
                         if (item.Followers)
                         {
+                            // Check followers. We should get actual list of followers from instagram. And previous list of followers from app database. Compare folowers list and save report record with new followers and unsabscribed followers
                             List<string> followerList = await engine.GetFollowers(item.UserName);
                             ISet<string> followers = new HashSet<string>(followerList);
 
@@ -67,6 +71,7 @@ namespace InstaMonitor
                                 repo.AddFollowerReport(report);
                             }
 
+                            // Get reports for the account and print it
                             List<FollowerReport> reports = repo.GetFollowerReports(account);
 
                             string header = $"{item.UserName}'s reports:";

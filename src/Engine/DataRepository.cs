@@ -9,6 +9,9 @@ using System.Text;
 
 namespace InstaMonitor.Engine
 {
+    /// <summary>
+    /// Repository for persist records
+    /// </summary>
     public class DataRepository : IDisposable
     {
 
@@ -22,6 +25,11 @@ namespace InstaMonitor.Engine
             db = new LiteDatabase(connectionString);
         }
 
+        /// <summary>
+        /// Get database connection string and parse it
+        /// </summary>
+        /// <param name="config"></param>
+        /// <returns></returns>
         private ConnectionString GetConnectionString(IConfiguration config)
         {
             string connectionString = config.GetConnectionString("LiteDB");
@@ -29,6 +37,12 @@ namespace InstaMonitor.Engine
             return result;
         }
 
+        /// <summary>
+        /// Get account model of account with passed login
+        /// Returns null if not found
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <returns></returns>
         public Account GetAccount(string userName)
         {
             var collection = db.GetCollection<Account>("accounts");
@@ -37,18 +51,32 @@ namespace InstaMonitor.Engine
             return result;
         }
 
+        /// <summary>
+        /// Add or update record of the account in database
+        /// If primary key is empty record is add
+        /// </summary>
+        /// <param name="account"></param>
         public void SaveAccount(Account account)
         {
             var collection = db.GetCollection<Account>("accounts");
             collection.Upsert(account);
         }
 
+        /// <summary>
+        /// Remove record of the account from database
+        /// </summary>
+        /// <param name="account"></param>
         public void DeleteAccount(Account account)
         {
             var collection = db.GetCollection<Account>("accounts");
             collection.Delete(account.AccountId);
         }
 
+        /// <summary>
+        /// Get list of followers for passed account
+        /// </summary>
+        /// <param name="account"></param>
+        /// <returns></returns>
         public List<Follower> GetFollowers(Account account)
         {
             var collection = db.GetCollection<Follower>("followers");
@@ -57,6 +85,10 @@ namespace InstaMonitor.Engine
             return result;
         }
 
+        /// <summary>
+        /// Remove passed followers from the database
+        /// </summary>
+        /// <param name="followers"></param>
         public void DeleteFollowers(List<Follower> followers)
         {
             var collection = db.GetCollection<Follower>("followers");
@@ -64,6 +96,10 @@ namespace InstaMonitor.Engine
             collection.DeleteMany(x => ids.Contains(x.FollowerId));
         }
 
+        /// <summary>
+        /// Remove followers of passed account from the database
+        /// </summary>
+        /// <param name="account"></param>
         public void DeleteFollowers(Account account)
         {
             var collection = db.GetCollection<Follower>("followers");
@@ -71,6 +107,10 @@ namespace InstaMonitor.Engine
             collection.DeleteMany(x => x.AccountId == account.AccountId);
         }
 
+        /// <summary>
+        /// Add new records of followers to the database
+        /// </summary>
+        /// <param name="followers"></param>
         public void AddFollowers(List<Follower> followers)
         {
             var collection = db.GetCollection<Follower>("followers");
@@ -78,6 +118,10 @@ namespace InstaMonitor.Engine
             collection.InsertBulk(followers);
         }
 
+        /// <summary>
+        /// Add report record about followers
+        /// </summary>
+        /// <param name="report"></param>
         public void AddFollowerReport(FollowerReport report)
         {
             var collection = db.GetCollection<FollowerReport>("followerReports");
@@ -85,6 +129,11 @@ namespace InstaMonitor.Engine
             collection.Insert(report);
         }
 
+        /// <summary>
+        /// Get from database list of followers by passed account
+        /// </summary>
+        /// <param name="account"></param>
+        /// <returns></returns>
         public List<FollowerReport> GetFollowerReports(Account account)
         {
             var collection = db.GetCollection<FollowerReport>("followerReports");

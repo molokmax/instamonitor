@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Linq;
+using NLog;
 using System;
 using System.IO;
 
@@ -11,8 +12,9 @@ namespace InstaMonitor.Engine
     /// </summary>
     public abstract class BaseConfigurationBuilder
     {
+        private static ILogger commonlogger = LogManager.GetLogger(Consts.LogTypes.Common);
         public IConfiguration Configuration { get; private set; }
-        public IServiceProvider ServiceProvider { get; private set; }
+        protected IServiceProvider ServiceProvider { get; private set; }
 
         /// <summary>
         /// Name of environment variable with environment name
@@ -44,9 +46,18 @@ namespace InstaMonitor.Engine
             {
                 envName = Environment.GetEnvironmentVariable(EnvironmentVariableName);
             }
-            Console.WriteLine($"EnviromentName = '{envName}'"); // TODO. write to log
+            commonlogger.Debug($"EnviromentName = '{envName}'");
             Configuration = BuildConfiguration(envName);
             ServiceProvider = BuildServiceProvider(Configuration);
+        }
+
+        /// <summary>
+        /// Create scope of IoC container. Use it for avoid reference leak
+        /// </summary>
+        /// <returns></returns>
+        public IServiceScope CreateServiceScope()
+        {
+            return ServiceProvider.CreateScope();
         }
 
         /// <summary>

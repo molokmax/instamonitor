@@ -356,3 +356,4 @@ MigrationBackup/
 # Configs with auth data
 src/appsettings.Development.json
 src/appsettings.Production.json
+src/data

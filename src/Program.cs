@@ -13,15 +13,15 @@ namespace InstaMonitor
 {
     class Program
     {
-        private static ILogger commonlogger = LogManager.GetLogger(Consts.LogTypes.Common);
+        private static ILogger commonLogger = LogManager.GetLogger(Consts.LogTypes.Common);
         private static ILogger reportLogger = LogManager.GetLogger(Consts.LogTypes.Report);
 
         static async Task Main(string[] args)
         {
             try
             {
-                commonlogger.Info("InstaMonitor started");
-
+                commonLogger.Info("InstaMonitor started");
+ 
                 InstagramMonitorConfigurationBuilder ioc = new InstagramMonitorConfigurationBuilder();
                 using (IServiceScope scope = ioc.CreateServiceScope())
                 {
@@ -86,11 +86,11 @@ namespace InstaMonitor
             }
             catch (Exception e)
             {
-                commonlogger.Error(e);
+                commonLogger.Error(e);
             }
             finally
             {
-                commonlogger.Info("InstaMonitor finished");
+                commonLogger.Info("InstaMonitor finished");
             }
         }
 

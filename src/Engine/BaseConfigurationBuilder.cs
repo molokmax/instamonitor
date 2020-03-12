@@ -12,7 +12,7 @@ namespace InstaMonitor.Engine
     /// </summary>
     public abstract class BaseConfigurationBuilder
     {
-        private static ILogger commonlogger = LogManager.GetLogger(Consts.LogTypes.Common);
+        private static ILogger commonLogger = LogManager.GetLogger(Consts.LogTypes.Common);
         public IConfiguration Configuration { get; private set; }
         protected IServiceProvider ServiceProvider { get; private set; }
 
@@ -31,8 +31,12 @@ namespace InstaMonitor.Engine
         /// </summary>
         /// <param name="envName"></param>
         /// <param name="envVariableName"></param>
-        public BaseConfigurationBuilder(string envName = null, string envVariableName = null)
+        public BaseConfigurationBuilder(bool correctCurrentDir = true, string envName = null, string envVariableName = null)
         {
+            if (correctCurrentDir) 
+            {
+                Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
+            }
             if (!String.IsNullOrEmpty(envVariableName))
             {
                 EnvironmentVariableName = envVariableName;
@@ -46,7 +50,7 @@ namespace InstaMonitor.Engine
             {
                 envName = Environment.GetEnvironmentVariable(EnvironmentVariableName);
             }
-            commonlogger.Debug($"EnviromentName = '{envName}'");
+            commonLogger.Debug($"EnviromentName = '{envName}'");
             Configuration = BuildConfiguration(envName);
             ServiceProvider = BuildServiceProvider(Configuration);
         }
@@ -95,6 +99,7 @@ namespace InstaMonitor.Engine
             var currentDirectoryPath = Directory.GetCurrentDirectory();
             var envSettingsPath = Path.Combine(currentDirectoryPath, "envsettings.json");
             string enviromentName = null;
+            commonLogger.Debug($"Environment Settings Path = '{envSettingsPath}'");
             if (File.Exists(envSettingsPath))
             {
                 JObject envSettings = JObject.Parse(File.ReadAllText(envSettingsPath));

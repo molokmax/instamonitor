@@ -30,7 +30,7 @@ namespace InstaMonitor
 
                     if (monitorItems != null && monitorItems.Any())
                     {
-                        InstragramEngine engine = scope.ServiceProvider.GetService<InstragramEngine>();
+                        IInstagramEngine engine = scope.ServiceProvider.GetService<InstagramEngine>();
                         await engine.Initialize();
 
                         IDataRepository repo = scope.ServiceProvider.GetService<IDataRepository>();

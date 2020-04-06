@@ -9,12 +9,14 @@ using System.Linq;
 
 namespace InstaMonitor.Tests
 {
+    /// <summary>
+    /// Tests for persist data repository
+    /// </summary>
     [TestFixture]
     public class RepositoryUnitTest
     {
 
         private TestConfigurationBuilder IoC;
-        private IServiceScope Scope;
         private IDataRepository Repo;
 
         [Test]
@@ -31,7 +33,7 @@ namespace InstaMonitor.Tests
         }
 
         [Test]
-        public void SaveAccount()
+        public void AddAccount()
         {
             string username = "TestUserName_2";
             DateTime changeDate = new DateTime(2020, 4, 6, 11, 15, 23, 123);
@@ -47,6 +49,12 @@ namespace InstaMonitor.Tests
             Assert.AreNotEqual(0, rec.AccountId);
             Assert.AreEqual(username, rec.UserName);
             Assert.AreEqual(changeDate, rec.LastUpdate);
+        }
+
+        [Test]
+        public void UpdateAccount()
+        {
+            Assert.Fail("Not implemented");
         }
 
         [Test]
@@ -202,13 +210,18 @@ namespace InstaMonitor.Tests
         public void Init()
         {
             IoC = new TestConfigurationBuilder();
-            Scope = IoC.CreateServiceScope();
         }
 
         [OneTimeTearDown]
         public void Dispose()
         {
-            Scope?.Dispose();
+
+            string binDir = TestContext.CurrentContext.TestDirectory;
+            string dbDirName = $"{binDir}/data_test";
+            if (Directory.Exists(dbDirName))
+            {
+                Directory.Delete(dbDirName);
+            }
         }
 
         [SetUp]
@@ -231,7 +244,10 @@ namespace InstaMonitor.Tests
         }
 
 
-
+        /// <summary>
+        /// for each test we use new database
+        /// </summary>
+        /// <returns></returns>
         private string GetDbFileName()
         {
             string binDir = TestContext.CurrentContext.TestDirectory;
@@ -240,6 +256,11 @@ namespace InstaMonitor.Tests
             return dbFileName;
         }
 
+
+        /// <summary>
+        /// Add test records to database
+        /// </summary>
+        /// <param name="repo"></param>
         private void InitTestData(IDataRepository repo)
         {
             Account account1 = new Account()

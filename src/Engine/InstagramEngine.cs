@@ -15,14 +15,14 @@ namespace InstaMonitor.Engine
     /// <summary>
     /// Engine of instagram api. Wrapper for client of instagram api
     /// </summary>
-    public class InstragramEngine
+    public class InstagramEngine : IInstagramEngine
     {
         private static ILogger commonLogger = LogManager.GetLogger(Consts.LogTypes.Common);
 
         private IInstaApi api;
         private IConfiguration configuration;
 
-        public InstragramEngine(IConfiguration config)
+        public InstagramEngine(IConfiguration config)
         {
             configuration = config;
         }

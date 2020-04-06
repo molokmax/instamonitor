@@ -12,14 +12,18 @@ namespace InstaMonitor.Engine
     /// <summary>
     /// Repository for persist records
     /// </summary>
-    public class DataRepository : IDisposable
+    public class DataRepository : IDataRepository
     {
 
         private LiteDatabase db;
 
-        public DataRepository(IConfiguration config)
+        public DataRepository(IConfiguration config, string dbFileName = null)
         {
             ConnectionString connectionString = GetConnectionString(config);
+            if (!String.IsNullOrEmpty(dbFileName))
+            {
+                connectionString.Filename = dbFileName;
+            }
             string dir = Path.GetDirectoryName(connectionString.Filename);
             Directory.CreateDirectory(dir);
             db = new LiteDatabase(connectionString);

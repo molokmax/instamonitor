@@ -1,14 +1,15 @@
 ﻿using System.Collections.Generic;
+using InstaMonitor.Engine;
 using InstaMonitor.Model;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace InstaMonitor.Engine
+namespace InstaMonitor.Tests
 {
     /// <summary>
     /// Implementaion of ConfigurationBuilder for Instragram Monitor
     /// </summary>
-    public class InstagramMonitorConfigurationBuilder : BaseConfigurationBuilder
+    public class TestConfigurationBuilder : BaseConfigurationBuilder
     {
         //public InstaMonitorConfigurationBuilder() : base(null, null)
         //{
@@ -20,8 +21,8 @@ namespace InstaMonitor.Engine
         /// <param name="services"></param>
         protected override void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<InstragramEngine>();
-            services.AddSingleton<IDataRepository, DataRepository>();
+            // services.AddTransient<InstragramEngine>();
+            // services.AddSingleton<IDataRepository, DataRepository>();
         }
     }
 }

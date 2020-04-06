@@ -33,7 +33,7 @@ namespace InstaMonitor
                         InstragramEngine engine = scope.ServiceProvider.GetService<InstragramEngine>();
                         await engine.Initialize();
 
-                        DataRepository repo = scope.ServiceProvider.GetService<DataRepository>();
+                        IDataRepository repo = scope.ServiceProvider.GetService<IDataRepository>();
 
                         foreach (MonitorItem item in monitorItems)
                         {
@@ -94,7 +94,7 @@ namespace InstaMonitor
             }
         }
 
-        private static void PrintFollowerReports(MonitorItem item, Account account, DataRepository repo)
+        private static void PrintFollowerReports(MonitorItem item, Account account, IDataRepository repo)
         {
             // Get reports for the account and print it
             List<FollowerReport> reports = repo.GetFollowerReports(account);

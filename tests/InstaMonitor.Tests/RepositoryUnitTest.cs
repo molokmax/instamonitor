@@ -141,6 +141,62 @@ namespace InstaMonitor.Tests
             Assert.AreEqual(0, followers.Count);
         }
 
+        [Test]
+        public void GetFollowerReports()
+        {
+            string username = "TestUserName2";
+            Account account = Repo.GetAccount(username);
+            List<FollowerReport> reports = Repo.GetFollowerReports(account)
+                .OrderBy(x => x.ChangeDate).ToList();
+
+            Assert.AreEqual(2, reports.Count);
+            FollowerReport rec1 = reports[0];
+            Assert.IsNotNull(rec1);
+            Assert.AreEqual(account.AccountId, rec1.AccountId);
+            Assert.IsNotNull(rec1.FollowerReportId);
+            Assert.AreNotEqual(0, rec1.FollowerReportId);
+            Assert.AreEqual("follower1,follower2", String.Join(",", rec1.AddedFollowers));
+            Assert.AreEqual("follower3,follower4", String.Join(",", rec1.RemovedFollowers));
+            Assert.AreEqual(new DateTime(2020, 3, 5, 3, 54, 34, 321), rec1.ChangeDate);
+            FollowerReport rec2 = reports[1];
+            Assert.IsNotNull(rec2);
+            Assert.AreEqual(account.AccountId, rec2.AccountId);
+            Assert.IsNotNull(rec2.FollowerReportId);
+            Assert.AreNotEqual(0, rec2.FollowerReportId);
+            Assert.AreEqual("follower5,follower6", String.Join(",", rec2.AddedFollowers));
+            Assert.AreEqual("follower7,follower8", String.Join(",", rec2.RemovedFollowers));
+            Assert.AreEqual(new DateTime(2020, 3, 6, 5, 53, 24, 221), rec2.ChangeDate);
+        }
+
+        [Test]
+        public void AddFollowerReport()
+        {
+            string username = "TestUserName1";
+            Account account = Repo.GetAccount(username);
+
+            FollowerReport report = new FollowerReport()
+            {
+                AccountId = account.AccountId,
+                ChangeDate = new DateTime(2020, 4, 7, 5, 53, 24, 221),
+                AddedFollowers = new List<string>() { "follower13", "follower14" },
+                RemovedFollowers = new List<string>() { "follower15", "follower16" }
+            };
+            Repo.AddFollowerReport(report);
+
+            List<FollowerReport> reports = Repo.GetFollowerReports(account)
+                .OrderBy(x => x.ChangeDate).ToList();
+
+            Assert.AreEqual(2, reports.Count);
+            FollowerReport rec2 = reports[1];
+            Assert.IsNotNull(rec2);
+            Assert.AreEqual(account.AccountId, rec2.AccountId);
+            Assert.IsNotNull(rec2.FollowerReportId);
+            Assert.AreNotEqual(0, rec2.FollowerReportId);
+            Assert.AreEqual("follower13,follower14", String.Join(",", rec2.AddedFollowers));
+            Assert.AreEqual("follower15,follower16", String.Join(",", rec2.RemovedFollowers));
+            Assert.AreEqual(new DateTime(2020, 4, 7, 5, 53, 24, 221), rec2.ChangeDate);
+        }
+
 
         [OneTimeSetUp]
         public void Init()
@@ -226,6 +282,31 @@ namespace InstaMonitor.Tests
                 },
             };
             repo.AddFollowers(followers);
+
+            FollowerReport report1 = new FollowerReport()
+            {
+                AccountId = account1.AccountId,
+                ChangeDate = new DateTime(2020, 3, 6, 3, 54, 34, 321),
+                AddedFollowers = new List<string>() { "follower9", "follower10" },
+                RemovedFollowers = new List<string>() { "follower11", "follower12" }
+            };
+            FollowerReport report2 = new FollowerReport()
+            {
+                AccountId = account2.AccountId,
+                ChangeDate = new DateTime(2020, 3, 5, 3, 54, 34, 321),
+                AddedFollowers = new List<string>() { "follower1", "follower2" },
+                RemovedFollowers = new List<string>() { "follower3", "follower4" }
+            };
+            FollowerReport report3 = new FollowerReport()
+            {
+                AccountId = account2.AccountId,
+                ChangeDate = new DateTime(2020, 3, 6, 5, 53, 24, 221),
+                AddedFollowers = new List<string>() { "follower5", "follower6" },
+                RemovedFollowers = new List<string>() { "follower7", "follower8" }
+            };
+            repo.AddFollowerReport(report1);
+            repo.AddFollowerReport(report2);
+            repo.AddFollowerReport(report3);
         }
     }
 }

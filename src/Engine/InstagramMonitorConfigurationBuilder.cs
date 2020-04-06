@@ -20,6 +20,7 @@ namespace InstaMonitor.Engine
         /// <param name="services"></param>
         protected override void ConfigureServices(IServiceCollection services)
         {
+            // services.AddSingleton<ICheckExecutor, CheckExecutor>();
             services.AddTransient<IInstagramEngine, InstagramEngine>();
             services.AddSingleton<IDataRepository, DataRepository>();
         }

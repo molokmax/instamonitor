@@ -52,9 +52,38 @@ namespace InstaMonitor.Tests
         }
 
         [Test]
-        public void UpdateAccount()
+        public void UpdateAccountName()
         {
-            Assert.Fail("Not implemented");
+            string username = "TestUserName1";
+            string username2 = "TestUserName1_Rename";
+            DateTime changeDate = new DateTime(2020, 4, 4, 10, 14, 21, 121);
+            Account account = Repo.GetAccount(username);
+            account.UserName = username2;
+            Repo.SaveAccount(account);
+            Account rec1 = Repo.GetAccount(username);
+            Assert.IsNull(rec1);
+            Account rec2 = Repo.GetAccount(username2);
+            Assert.IsNotNull(rec2);
+            Assert.IsNotNull(rec2.AccountId);
+            Assert.AreNotEqual(0, rec2.AccountId);
+            Assert.AreEqual(username2, rec2.UserName);
+            Assert.AreEqual(changeDate, rec2.LastUpdate);
+        }
+
+        [Test]
+        public void UpdateAccountChangeDate()
+        {
+            string username = "TestUserName1";
+            DateTime changeDate = new DateTime(2020, 4, 5, 11, 16, 19, 212);
+            Account account = Repo.GetAccount(username);
+            account.LastUpdate = changeDate;
+            Repo.SaveAccount(account);
+            Account rec1 = Repo.GetAccount(username);
+            Assert.IsNotNull(rec1);
+            Assert.IsNotNull(rec1.AccountId);
+            Assert.AreNotEqual(0, rec1.AccountId);
+            Assert.AreEqual(username, rec1.UserName);
+            Assert.AreEqual(changeDate, rec1.LastUpdate);
         }
 
         [Test]

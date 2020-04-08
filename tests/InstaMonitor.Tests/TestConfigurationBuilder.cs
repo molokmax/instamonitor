@@ -11,9 +11,9 @@ namespace InstaMonitor.Tests
     /// </summary>
     public class TestConfigurationBuilder : BaseConfigurationBuilder
     {
-        //public InstaMonitorConfigurationBuilder() : base(null, null)
-        //{
-        //}
+        public TestConfigurationBuilder() : base(envName: "Test")
+        {
+        }
 
         /// <summary>
         /// Configure dependency injection container

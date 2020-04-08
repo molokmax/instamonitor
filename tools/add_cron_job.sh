@@ -8,3 +8,6 @@ touch /var/spool/cron/crontabs/root
 # /usr/bin/crontab /var/spool/cron/molokmax
 
 echo "0 0 * * * /opt/instamonitor/InstaMonitor" >> /var/spool/cron/crontabs/root
+
+
+service cron restart

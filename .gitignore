@@ -357,3 +357,4 @@ MigrationBackup/
 src/appsettings.Development.json
 src/appsettings.Production.json
 src/data
+tests/InstaMonitor.Tests/appsettings.Test.json

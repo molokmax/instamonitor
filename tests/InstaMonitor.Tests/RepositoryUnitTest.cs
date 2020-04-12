@@ -244,12 +244,12 @@ namespace InstaMonitor.Tests
         [OneTimeTearDown]
         public void Dispose()
         {
-
+            string dataDir = this.GetType().Name;
             string binDir = TestContext.CurrentContext.TestDirectory;
-            string dbDirName = $"{binDir}/data_test";
+            string dbDirName = $"{binDir}/{dataDir}";
             if (Directory.Exists(dbDirName))
             {
-                Directory.Delete(dbDirName);
+                Directory.Delete(dbDirName, true);
             }
         }
 
@@ -279,9 +279,10 @@ namespace InstaMonitor.Tests
         /// <returns></returns>
         private string GetDbFileName()
         {
+            string dataDir = this.GetType().Name;
             string binDir = TestContext.CurrentContext.TestDirectory;
             string testDir = TestContext.CurrentContext.Test.Name;
-            string dbFileName = $"{binDir}/data_test/{testDir}/test_database.db";
+            string dbFileName = $"{binDir}/{dataDir}/{testDir}/test_database.db";
             return dbFileName;
         }
 

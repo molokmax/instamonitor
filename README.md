@@ -1,14 +1,22 @@
 # instamonitor
 Monitor of Instagram account statistic
 
-TODO:
------
-0. ~~Push project in GitHub~~
-1. ~~Configuration of objects for monitoring~~
-2. ~~Add comments~~
-3. ~~Write unit tests~~
-4. ~~Save results of execution~~
-5. ~~Make report. Compare previous results with current and save difference as report item~~
-6. ~~Write logs. For example with NLog~~
-7. ~~Can Program.Main be async function? Find out it and fix if it's necessary~~
-8. ~~Use docker for building and debugging~~
+## TODO:
+
+### Wave 1:
+- [x] Push project in GitHub
+- [x] Configuration of objects for monitoring
+- [x] Add comments
+- [x] Write unit tests
+- [x] Save results of execution
+- [x] Make report. Compare previous results with current and save difference as report item
+- [x] Write logs. For example with NLog
+- [x] Can Program.Main be async function? Find out it and fix if it's necessary
+- [x] Use docker for building and debugging
+
+### Wave 2:
+- [x] Check following list
+- [x] Api for view reports
+- [x] UI for view reports
+- [x] Add comments for CheckExecutor
+- [x] Write Readme

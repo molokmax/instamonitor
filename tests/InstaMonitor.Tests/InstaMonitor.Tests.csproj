@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\InstaMonitor.csproj" />
+    <ProjectReference Include="..\..\src\InstaMonitor.Core\InstaMonitor.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>

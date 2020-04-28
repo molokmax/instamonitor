@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
-using InstaMonitor.Engine;
-using InstaMonitor.Model;
+using InstaMonitor.Core.Engine;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 

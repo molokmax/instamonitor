@@ -1,0 +1,16 @@
+{
+  "profiles": {
+    "InstaMonitor": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "INSTAMONITOR_ENVIRONMENT": "Development"
+      }
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "environmentVariables": {
+        "INSTAMONITOR_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

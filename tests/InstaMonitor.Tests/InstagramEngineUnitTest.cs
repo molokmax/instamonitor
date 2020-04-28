@@ -1,4 +1,4 @@
-using InstaMonitor.Engine;
+using InstaMonitor.Core.Engine;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using System.Collections.Generic;

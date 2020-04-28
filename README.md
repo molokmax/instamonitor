@@ -15,8 +15,9 @@ Monitor of Instagram account statistic
 - [x] Use docker for building and debugging
 
 ### Wave 2:
-- [x] Check following list
+- [ ] Check following list
 - [x] Api for view reports
-- [x] UI for view reports
+- [ ] UI for view reports
+- [ ] Logging
 - [x] Add comments for CheckExecutor
-- [x] Write Readme
+- [ ] Write Readme

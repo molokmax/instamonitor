@@ -1,5 +1,5 @@
-﻿using InstaMonitor.Engine;
-using InstaMonitor.Model;
+﻿using InstaMonitor.Core.Engine;
+using InstaMonitor.Core.Model;
 using InstaMonitor.Tests.Mock;
 using NUnit.Framework;
 using System;
